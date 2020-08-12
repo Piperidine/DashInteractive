@@ -12,8 +12,18 @@ import plotly.express as px
 
 app = dash.Dash(__name__)
 cities = ['Mumbai', 'Delhi', 'Chennai']
+
+## Put names of firms instead ^^^ 
+
 ratios = ['open_ratio', 'click_ratio']
+
+# Put column names of ratio variables instead ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6
+
+
 df = pd.read_excel('ratios.xlsx')
+
+# Ye file same folder mai daal de
+
 fig = px.bar(df, x='Grade', y=ratios[0], color="Grade", barmode="group")
 val = 'Chart of {} for {}'.format(ratios[0], cities[0])
 app.layout = html.Div([
