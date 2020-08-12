@@ -9,20 +9,13 @@ import dash_html_components as html
 import pandas as pd
 import plotly.express as px
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__)
 cities = ['Mumbai', 'Delhi', 'Chennai']
-# assume you have a "long-form" data frame
-# see https://plotly.com/python/px-arguments/ for more options
-# df = pd.DataFrame({
-#     "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-#     "Amount": [4, 1, 2, 2, 4, 5],
-#     "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-# })
+ratios = ['open_ratio', 'click_ratio']
 df = pd.read_excel('ratios.xlsx')
-fig = px.bar(df, x='Grade', y='open_ratio', color="City", barmode="group")
-val = '#Chart of {} for {}'.format('open_ratio', cities[0])
+fig = px.bar(df, x='Grade', y=ratios[0], color="Grade", barmode="group")
+val = 'Chart of {} for {}'.format(ratios[0], cities[0])
 app.layout = html.Div([
 ])
 
@@ -32,15 +25,15 @@ app.layout = html.Div(children=[
         dcc.Dropdown(
             id='crossfilter-city',
             options=[{'label': i, 'value': i} for i in cities],
-            value='Mumbai'
+            value=cities[0]
         ),
     ],
         style={'width': '20%', 'display': 'inline-block'}),
     html.Div([
         dcc.Dropdown(
             id='crossfilter-variable',
-            options=[{'label': i, 'value': i} for i in ['open_ratio', 'click_ratio']],
-            value='open_ratio',
+            options=[{'label': i, 'value': i} for i in ratios],
+            value=ratios[0],
         ),
     ],
         style={'width': '20%', 'display': 'inline-block'}),
@@ -51,7 +44,7 @@ app.layout = html.Div(children=[
                      # style={'width': '30%', 'display': 'inline-block','outline-width':0}
                      )
     ],
-        style={'margin-top': '50px', 'margin-left': '200px', 'font-size': 24}
+        style={'margin-top': '10px', 'margin-left': '100px', 'font-size': 24}
     ),
     html.Div([
         dcc.Graph(
@@ -60,7 +53,7 @@ app.layout = html.Div(children=[
             # layout=fig.layout,
         ),
     ],
-        style={'width': '100%', 'display': 'inline-block', 'margin-top': '300px'}),
+        style={'width': '100%', 'display': 'inline-block', 'margin-top': '100px'}),
 
 ])
 
@@ -74,16 +67,14 @@ def update_graph(city, variable):
 
     fig = px.bar(dff, x='Grade',
                  y=variable,
+                 color='Grade',
                  # hover_name=dff[variable]
-                 labels={'Grade': 'Grade', variable: variable}
                  )
 
     fig.update_xaxes(title={'text': city})
-
     fig.update_yaxes(title=variable)
     fig.update_layout(title_text='Chart of {} for {}'.format(variable, city))
     fig.update_layout(margin={'l': 300, 'b': 40, 't': 10, 'r': 300}, hovermode='closest')
-
     return fig
 
 
@@ -92,7 +83,7 @@ def update_graph(city, variable):
     [dash.dependencies.Input('crossfilter-city', 'value'),
      dash.dependencies.Input('crossfilter-variable', 'value')])
 def update_title(city, variable):
-    return '##Chart of {} for {}'.format(variable, city)
+    return 'Chart of {} for {}'.format(variable, city)
 
 
 if __name__ == '__main__':
