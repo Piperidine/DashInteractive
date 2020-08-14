@@ -30,10 +30,10 @@ app.layout = html.Div([
 ])
 
 app.layout = html.Div(style={
-    'background-image': '/assets/test.jpeg',
-    # 'background-repeat': 'no - repeat',
-    # 'background-position': 'right top',
-    'background-size': '150px 100px'
+    'background-image': 'url("https://images.unsplash.com/photo-1534237710431-e2fc698436d0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2134&q=80")',
+    'background-repeat': 'no-repeat',
+    'background-position': 'center',
+    'background-size': '1920px 2880px'
 },
     children=[
         html.H1(children='Dashboard of ratios across firms'),
@@ -69,7 +69,7 @@ app.layout = html.Div(style={
                 # layout=fig.layout,
             ),
         ],
-            style={'width': '100%', 'display': 'inline-block', 'margin-top': '100px'}),
+            style={'width': '50%', 'display': 'inline-block', 'margin-top': '150px', 'margin-left':'25%'}),
 
 ])
 
@@ -94,7 +94,7 @@ def update_graph(company, variable):
     fig.update_layout(
         title_text='Chart of {} for {}'.format(variable, company))
     fig.update_layout(
-        margin={'l': 300, 'b': 40, 't': 10, 'r': 300}, hovermode='closest')
+        margin={'l': 50, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
     return fig
 
 
