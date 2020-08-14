@@ -10,8 +10,9 @@ import pandas as pd
 import plotly.express as px
 
 app = dash.Dash(__name__)
-companies = ['Deloitte Haskin', 'Deloitte Touche Toumatsu', 'Deloitte and Co.']
+cities = ['Deloitte Haskin', 'Deloitte Touche Toumatsu', 'Deloitte and Co.']
 
+# cities = ['Mumbai', 'Delhi', 'Chennai']
 # Put names of firms instead ^^^
 
 ratios = ['open_ratio', 'click_ratio']
@@ -23,9 +24,9 @@ df = pd.read_csv('ratios.csv')
 
 # Ye file same folder mai daal de
 
-fig = px.scatter(df[df['Company'] == companies[0]],
+fig = px.scatter(df[df['City'] == cities[0]],
                  x='Department', y=ratios[0], color='Department', )
-val = 'Chart of {} for {}'.format(ratios[0], companies[0])
+val = 'Chart of {} for {}'.format(ratios[0], cities[0])
 app.layout = html.Div([
 ])
 
@@ -40,8 +41,8 @@ app.layout = html.Div(style={
         html.Div([
             dcc.Dropdown(
                 id='crossfilter-company',
-                options=[{'label': i, 'value': i} for i in companies],
-                value=companies[0]
+                options=[{'label': i, 'value': i} for i in cities],
+                value=cities[0]
             ),
         ],
             style={'width': '20%', 'display': 'inline-block'}),
@@ -79,7 +80,7 @@ app.layout = html.Div(style={
     [dash.dependencies.Input('crossfilter-company', 'value'),
      dash.dependencies.Input('crossfilter-variable', 'value')])
 def update_graph(company, variable):
-    dff = df[df['Company'] == company]
+    dff = df[df['City'] == company]
     print(dff)
     fig = px.scatter(dff, x='Department',
                      y=variable,
